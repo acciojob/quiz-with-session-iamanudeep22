@@ -30,6 +30,18 @@ const questions = [
   },
 ];
 
+let userAnswers = [];
+function loadAnswerFromSessionStorage(){
+  const savedAnswer = sessionStorage.getItem('userAnswers');
+  if(savedAnswer){
+    userAnswers = JSON.parse(savedAnswer);
+  }
+}
+
+function savedAnswersToSessionStorage(){
+  sessionStorage.setItem('userAnswers',JSON.stringify(userAnswers));
+}
+
 // Display the quiz questions and choices
 function renderQuestions() {
   for (let i = 0; i < questions.length; i++) {
@@ -54,3 +66,16 @@ function renderQuestions() {
   }
 }
 renderQuestions();
+
+const btn = document.getElementById('submit');
+btn.addEventListener('click',function(){
+  const res = document.getElementById('score');
+  let count=0;
+  for(let i=0;i<questions.length;i++){
+    if(questions[i].answer == userAnswers[i]){
+      count++;
+    }
+  }
+  localStorage.setItem("user",count);
+  res.textContent = Correct answer: ${count};
+})
